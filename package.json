@@ -1,0 +1,20 @@
+{
+  "name": "dev-tinder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start" : "node src/app.js",
+    "dev" : "nodemon src/app.js"
+  },
+  "keywords": [
+    "JavaScript",
+    "NodeJS",
+    "ExpressJS"
+  ],
+  "author": "Badrinath Reddy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
