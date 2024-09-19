@@ -2,21 +2,24 @@ const express = require('express');
 
 const app = express();
 
-app.put("/user", (req,res) => {
-    res.send("sucessfully updated");
-})
-
-app.post("/user", (req,res) => {
-    res.send("sucessfully updated");
-})
-
-app.get("/user", (req,res) => {
-    res.send({FirstName : "Chandra", LastName : "Badrinath Reddy"});
-})
-
-app.delete("/user", (req,res) => {
-    res.send("data deleted!");
-})
+// But it is not good way to place the multiple route handlers in the single route.
+app.use('/route', 
+    (req, res, next) => {
+        res.send("response 1");
+        next()
+    },
+    (req, res, next) => {
+        res.send("response 2");
+        next();
+    }, 
+    (req, res, next) => {
+        res.send("response 3");
+        next();
+    },
+    (req, res, next) => {
+        res.send("response 4");
+    }
+);
 
 app.listen(5000, () => {
     console.log(`Server is listening on port 5000`);
