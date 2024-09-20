@@ -8,6 +8,52 @@ const User = require('./models/user');
 
 app.use(express.json());
 
+app.patch('/user', async (req, res) => {
+    const userId = req.body.userId;
+    try {
+        const user = await User.findOneAndUpdate({_id : userId}, req.body, {
+            returnDocument : 'before',
+        });
+        res.send("updated sucessfully");
+    } catch (err) {
+        res.status(400).send("something went wrong!");
+    }
+})
+
+app.delete('/user', async (req, res) => {
+    const userId = req.body.userId;
+    try {
+        const user = await User.findByIdAndDelete(userId);
+        res.send("User deleted sucessfully");
+    } catch (err) {
+        res.status(400).send("something went wrong!");
+    }
+});
+
+app.get('/user', async (req, res) => {
+    const emailId = req.body.email;
+    try {
+        const users = await User.findOne({email : emailId});
+        if(users.length === 0){
+            res.status(404).send("user not found");
+        } else{
+            res.send(users);
+        }
+    } catch (err) {
+        res.status(400).send("somthing went wrong");
+    }
+});
+
+app.get('/feed', async (req, res) => {
+    try {
+        const users = await User.find({});
+        res.send(users);
+    } catch (err) {
+        res.status(400).send("something went wrong!");
+    }
+})
+
+
 app.post('/signup', async (req, res) => {
     const user = new User(req.body);
     try {
