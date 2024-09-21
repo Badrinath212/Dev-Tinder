@@ -13,6 +13,7 @@ app.patch('/user', async (req, res) => {
     try {
         const user = await User.findOneAndUpdate({_id : userId}, req.body, {
             returnDocument : 'before',
+            runValidators : true
         });
         res.send("updated sucessfully");
     } catch (err) {
