@@ -8,16 +8,38 @@ const User = require('./models/user');
 
 app.use(express.json());
 
-app.patch('/user', async (req, res) => {
-    const userId = req.body.userId;
+app.patch('/user/:userId', async (req, res) => {
+
+    const userId = req.params.userId;
+
     try {
+        const ALLOWED_UPDATES = [
+            "age", "photoUrl", "about", "skills", "gender"
+        ];
+
+        const isUpdatedAllowed = Object.keys(req.body).every((key) => (
+            ALLOWED_UPDATES.includes(key)
+        ));
+
+        if(!isUpdatedAllowed){
+            throw new Error("Update cannnot be allowed!");
+        }
+
+        if(req.body.hasOwnProperty("skills") && req.body.skills.length>10){
+            throw new Error("skills cannot be more than 10");
+        }
+
+        if(req.body.hasOwnProperty("about") && req.body.about.length>200){
+            throw new Error("description length cannot be more than 200 words");
+        }
+
         const user = await User.findOneAndUpdate({_id : userId}, req.body, {
             returnDocument : 'before',
             runValidators : true
         });
         res.send("updated sucessfully");
     } catch (err) {
-        res.status(400).send("something went wrong!");
+        res.status(400).send("UPDATION FAILED : " + err.message);
     }
 })
 
