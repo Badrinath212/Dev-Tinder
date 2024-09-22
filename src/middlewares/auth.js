@@ -1,18 +1,32 @@
 
-const userAuth = (req, res, next) => {
+const jwt = require('jsonwebtoken');
 
-    const token = "badri";
+const User = require('../models/user');
 
-    const isAuthorized = token === "badri";
+const userAuth = async (req, res, next) => {
 
-    if(!isAuthorized) {
+    try {
 
-        res.status(401).send("your are un-authorized!");
+        const { token } = req.cookies;
 
-    } else {
+        if(!token) {
+            throw new Error('Token not valid!!!!');
+        }
+
+        const decodedObj = await jwt.verify( token, '20Sravs02@');
+
+        const user = await User.findById( decodedObj._id );
+
+        if(!user){
+            throw new Error('user not found!');
+        }
+
+        req.user = user;
 
         next();
 
+    } catch (err) {
+        res.status(400).send("Error : " + err.message);
     }
 };
 
