@@ -49,7 +49,7 @@ app.post('/login', async (req, res) => {
             throw new Error("Invalid credentials");
         }
 
-        const isValidPassword = await bcrypt.compare(password, user.password);
+        const isValidPassword = await user.validatePassword( password );
 
         if(!isValidPassword) {
             throw new Error("Invalid credentials");
@@ -58,7 +58,7 @@ app.post('/login', async (req, res) => {
 
             const user = await User.findOne({ email });
 
-            const token = await jwt.sign({_id : user._id} , '20Sravs02@', { expiresIn : '2h'});
+            const token = await user.getJWT();
 
             res.cookie('token', token, { expires: new Date(Date.now() + 8 * 3600000) });
 
