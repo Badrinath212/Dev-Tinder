@@ -12,7 +12,9 @@ const userSchema = new mongoose.Schema({
         maxLength : 20
     },
     lastName : {
-        type : String
+        type : String,
+        minLength : 4,
+        maxLength : 20
     },
     email : {
         type : String,
@@ -38,7 +40,8 @@ const userSchema = new mongoose.Schema({
     },
     age : {
         type : Number,
-        min : 18
+        min : 18,
+        max : 80
     },
     gender : {
         type : String,
@@ -59,10 +62,20 @@ const userSchema = new mongoose.Schema({
     },
     about : {
         type : String,
-        default : "This is a default description"
+        default : "This is a default description",
+        validate(value) {
+            if(value.length>=100){
+                throw new Error("About must be less than 100 words.");
+            }
+        }
     },
     skills : {
-        type : [ String ]
+        type : [ String ],
+        validate(value) {
+            if(value.length>=20){
+                throw new Error("Skills must be less than 20");
+            }
+        }
     },
 },{ timestamps : true});
 
