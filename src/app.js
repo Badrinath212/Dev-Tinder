@@ -1,73 +1,18 @@
 const express = require('express');
-
 const { connectionDB } = require('./config/database');
-
 const app = express();
-
-const User = require('./models/user');
-
-const validator = require('validator');
-
-const bcrypt = require('bcrypt');
-
 const cookieParser = require('cookie-parser');
-
-const { userAuth } = require('./middlewares/auth');
-
-const jwt = require('jsonwebtoken');
+const profileRouter = require('./routes/profile');
+const authRouter = require('./routes/auth');
+const requestRouter = require('./routes/request');
 
 app.use(express.json());
 
 app.use(cookieParser());
 
-
-app.get('/profile', userAuth, async (req, res) => {
-
-    try {
-        res.send(req.user);
-
-    } catch (err) {
-        res.status(400).send("Error: " + err.message);
-    }
-})
-
-app.post('/login', async (req, res) => {
-    try {
-        const { email, password} = req.body;
-
-        if(!email) {
-            throw new Error("enter the email");
-        }
-
-        if(!validator.isEmail(email)) {
-            throw new Error("Invalid email");
-        }
-
-        const user = await User.findOne({email});
-
-        if(!user) {
-            throw new Error("Invalid credentials");
-        }
-
-        const isValidPassword = await user.validatePassword( password );
-
-        if(!isValidPassword) {
-            throw new Error("Invalid credentials");
-
-        } else {
-
-            const user = await User.findOne({ email });
-
-            const token = await user.getJWT();
-
-            res.cookie('token', token, { expires: new Date(Date.now() + 8 * 3600000) });
-
-            res.send('login successfull');
-        }
-    } catch (err) {
-        res.status(400).send('Error :' + err.message);
-    }
-})
+app.use('/', authRouter);
+app.use('/', profileRouter);
+app.use('/', requestRouter);
 
 connectionDB()
     .then( () => {
