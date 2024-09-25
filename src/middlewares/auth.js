@@ -6,7 +6,6 @@ const User = require('../models/user');
 const userAuth = async (req, res, next) => {
 
     try {
-
         const { token } = req.cookies;
 
         if(!token) {
@@ -14,7 +13,6 @@ const userAuth = async (req, res, next) => {
         }
 
         const decodedObj = await jwt.verify( token, '20Sravs02@');
-
         const user = await User.findById( decodedObj._id );
 
         if(!user){
@@ -22,7 +20,6 @@ const userAuth = async (req, res, next) => {
         }
 
         req.user = user;
-
         next();
 
     } catch (err) {
