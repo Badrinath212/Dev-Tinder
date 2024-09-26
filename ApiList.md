@@ -17,7 +17,7 @@ POST /request/review/:status/:requestId  //status : accepted,rejected
 
 # userRouter
 GET /user/connections
-GET /user/feed
+GET /feed
 GET /user/requests/received
 
 
