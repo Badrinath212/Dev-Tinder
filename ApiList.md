@@ -13,13 +13,12 @@ PATCH /profile/password
 
 # connectionRequestRouter
 POST /request/send/:status/:toUserId     //status : intrested,ignored
-POST /request/review/accepted/:requestId
-POST /request/review/rejected/:requestId
+POST /request/review/:status/:requestId  //status : accepted,rejected
 
 # userRouter
 GET /user/connections
 GET /user/feed
-GET /user/requests
+GET /user/requests/received
 
 
 status - ignored, intrested, accepted, rejected
