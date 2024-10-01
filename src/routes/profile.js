@@ -22,7 +22,6 @@ profileRouter.patch('/profile/edit', userAuth, async (req, res) => {
         if(!isValid) {
             throw new Error('Access denied!');
         } else {
-
             const loggedUser = req.user;
 
             Object.keys(req.body).forEach((key) => loggedUser[key] = req.body[key]);
