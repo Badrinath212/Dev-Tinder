@@ -6,6 +6,7 @@ const profileRouter = require('./routes/profile');
 const authRouter = require('./routes/auth');
 const requestRouter = require('./routes/request');
 const userRouter = require('./routes/user');
+const messageRouter = require('./routes/message');
 const cors = require('cors');
 
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use('/', authRouter);
 app.use('/', profileRouter);
 app.use('/', requestRouter);
 app.use('/', userRouter);
+app.use('/', messageRouter);
 
 connectionDB()
     .then( () => {
