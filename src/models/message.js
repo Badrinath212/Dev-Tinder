@@ -4,10 +4,12 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
     fromUserId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     toUserId: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     message: {
@@ -19,7 +21,8 @@ const messageSchema = new mongoose.Schema({
         enum: {
             values: [ 'sent', 'read', 'delivered'],
             message: '{VALUE} is not valid status'
-        }
+        },
+        default: 'sent'
     }
 }, {timestamps: true});
 
