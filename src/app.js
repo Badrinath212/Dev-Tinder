@@ -93,8 +93,8 @@ connectionDB()
     .then( () => {
         console.log("Database connnection sucessfully......");
         console.log(`PORT from env: ${process.env.PORT}`); 
-        server.listen(process.env.PORT,'0.0.0.0', () => {
-            console.log(`Server is listening on port 5000`);
+        server.listen(7777,'0.0.0.0', () => {
+            console.log(`Server is listening on port 7777`);
         });
     })
     .catch (() => {
