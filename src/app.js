@@ -92,6 +92,7 @@ io.on('connection', (socket) => {
 connectionDB()
     .then( () => {
         console.log("Database connnection sucessfully......");
+        console.log(`PORT from env: ${process.env.PORT}`); 
         server.listen(process.env.PORT,'0.0.0.0', () => {
             console.log(`Server is listening on port 5000`);
         });
