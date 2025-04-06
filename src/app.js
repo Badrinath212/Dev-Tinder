@@ -1,6 +1,6 @@
 const express = require('express');
-const { connectionDB } = require('./config/database');
 const app = express();
+const { connectionDB } = require('./config/database');
 const cookieParser = require('cookie-parser');
 const profileRouter = require('./routes/profile');
 const authRouter = require('./routes/auth');
@@ -16,7 +16,7 @@ const axios = require('axios');
 
 require("dotenv").config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7777;
 
 const io = new Server(server,{
     cors: {
@@ -92,9 +92,8 @@ io.on('connection', (socket) => {
 connectionDB()
     .then( () => {
         console.log("Database connnection sucessfully......");
-        console.log(`PORT from env: ${process.env.PORT}`); 
-        server.listen(7777,'0.0.0.0', () => {
-            console.log(`Server is listening on port 7777`);
+        server.listen(PORT,'0.0.0.0', () => {
+            console.log(`Server is listening on port ${PORT}`);
         });
     })
     .catch (() => {
